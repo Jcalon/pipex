@@ -1,42 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcalon <jcalon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/14 09:28:00 by jcalon            #+#    #+#             */
-/*   Updated: 2022/05/30 12:47:07 by jcalon           ###   ########.fr       */
+/*   Created: 2022/05/30 12:55:37 by jcalon            #+#    #+#             */
+/*   Updated: 2022/05/30 14:17:55 by jcalon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../include/pipex.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+void	niel(char	**split)
 {
-	char	*join;
-	size_t	size;
 	size_t	i;
 
-	if (s1 == NULL || s2 == NULL)
-		return (NULL);
-	size = ft_strlen(s1) + ft_strlen(s2) + 1;
-	join = malloc(sizeof(char) * size);
-	if (!join)
-		return (NULL);
 	i = 0;
-	while (*s1)
+	while (split[i])
 	{
-		join[i] = *s1;
+		free(split[i]);
 		i++;
-		s1++;
 	}
-	while (*s2)
-	{
-		join[i] = *s2;
-		i++;
-		s2++;
-	}
-	join[i] = '\0';
-	return (join);
+	free(split);
+}
+
+void	ft_perror(t_pipe pipex, char *str, int freepath, int freecmd)
+{
+	if (freepath == 1)
+		free(pipex.cmdpath);
+	if (freecmd == 1)
+		niel(pipex.cmd1);
+	else if (freecmd == 2)
+		niel(pipex.cmd2);
+	niel(pipex.paths);
+	perror(str);
+	exit(EXIT_FAILURE);
+}
+
+void	ft_error(char *str)
+{
+	ft_putstr_fd(str, 1);
+	exit(EXIT_FAILURE);
 }

@@ -6,7 +6,7 @@
 #    By: jcalon <jcalon@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/02 01:28:06 by crazyd            #+#    #+#              #
-#    Updated: 2022/05/27 19:41:29 by jcalon           ###   ########.fr        #
+#    Updated: 2022/05/30 13:11:41 by jcalon           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 NAME	= pipex
 NAME_B  = pipex_bonus
 
-SRCS 	= srcs/main.c
+SRCS 	= srcs/pipex.c srcs/childs.c srcs/utils.c
 OBJS 	= ${SRCS:.c=.o}
 
 SRCS_B	= srcs/pipex_bonus.c srcs/utils.c srcs/utils_bonus.c
