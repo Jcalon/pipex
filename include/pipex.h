@@ -6,7 +6,7 @@
 /*   By: jcalon <jcalon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 15:49:15 by jcalon            #+#    #+#             */
-/*   Updated: 2022/05/30 16:06:52 by jcalon           ###   ########.fr       */
+/*   Updated: 2022/05/30 21:08:16 by jcalon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,18 @@ typedef struct s_pipe
 {
 	char	**paths;
 	char	*cmdpath;
-	int		bouts[2];
-	pid_t	pid1;
-	pid_t	pid2;
+	int		*bouts;
+	pid_t	*pids;
 	int		fdin;
 	int		fdout;
-	char	**cmd1;
-	char	**cmd2;
+	char	**cmd;
+	int		cmds;
 }				t_pipe;
 
-void	child2(t_pipe pipex, char **argv, char **envp);
-void	child1(t_pipe pipex, char **argv, char **envp);
+void	child(t_pipe *pipex, char **argv, char **envp, int i);
 void	niel(char	**split);
-void	ft_perror(t_pipe pipex, char *str, int freepath, int freecmd);
-void	ft_error(char *str);
+void	ft_perror(t_pipe *pipex, char *str);
+void	close_files(t_pipe *pipex);
+void	ft_clean(t_pipe *pipex);
 
 #endif

@@ -6,11 +6,27 @@
 /*   By: jcalon <jcalon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:55:37 by jcalon            #+#    #+#             */
-/*   Updated: 2022/05/30 14:17:55 by jcalon           ###   ########.fr       */
+/*   Updated: 2022/05/30 21:08:12 by jcalon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex.h"
+
+void	close_files(t_pipe *pipex)
+{
+	int	j;
+
+	j = 0;
+	if (pipex->fdin != -1)
+		close(pipex->fdin);
+	if (pipex->fdout != -1)
+		close(pipex->fdout);
+	while (j < (pipex->cmds - 1) * 2)
+	{
+		close(pipex->bouts[j]);
+		j++;
+	}
+}
 
 void	niel(char	**split)
 {
@@ -25,21 +41,21 @@ void	niel(char	**split)
 	free(split);
 }
 
-void	ft_perror(t_pipe pipex, char *str, int freepath, int freecmd)
+void	ft_clean(t_pipe *pipex)
 {
-	if (freepath == 1)
-		free(pipex.cmdpath);
-	if (freecmd == 1)
-		niel(pipex.cmd1);
-	else if (freecmd == 2)
-		niel(pipex.cmd2);
-	niel(pipex.paths);
-	perror(str);
-	exit(EXIT_FAILURE);
+	if (pipex->paths)
+		niel(pipex->paths);
+	if (pipex->cmd)
+		niel(pipex->cmd);
+	if (pipex->bouts)
+		free(pipex->bouts);
+	if (pipex->pids)
+		free(pipex->pids);
 }
 
-void	ft_error(char *str)
+void	ft_perror(t_pipe *pipex, char *str)
 {
-	ft_putstr_fd(str, 1);
+	ft_clean(pipex);
+	perror(str);
 	exit(EXIT_FAILURE);
 }

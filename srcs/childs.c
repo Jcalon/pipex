@@ -6,7 +6,7 @@
 /*   By: jcalon <jcalon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:56:18 by jcalon            #+#    #+#             */
-/*   Updated: 2022/05/30 14:16:45 by jcalon           ###   ########.fr       */
+/*   Updated: 2022/05/30 20:49:38 by jcalon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,50 +32,43 @@ static char	*get_cmd(char **paths, char *cmd)
 	return (NULL);
 }
 
-void	child1(t_pipe pipex, char **argv, char **envp)
+static void	exec_child(t_pipe *pipex, char **argv, char **envp, int i)
 {
-	pipex.fdin = open(argv[1], O_RDONLY);
-	if (pipex.fdin == -1)
-		ft_perror(pipex, "ERROR_INFILE", 0, 0);
-	if (dup2(pipex.fdin, STDIN_FILENO) == -1)
-		ft_perror(pipex, "ERROR_DUP_INFILE", 0, 0);
-	if (dup2(pipex.bouts[1], STDOUT_FILENO) == -1)
-		ft_perror(pipex, "ERROR_DUP_OUTPIPE", 0, 0);
-	close(pipex.bouts[0]);
-	close(pipex.bouts[1]);
-	close(pipex.fdin);
-	if (argv[2][0] == '\0')
-		argv[2] = "cat";
-	pipex.cmd1 = ft_split(argv[2], ' ');
-	pipex.cmdpath = get_cmd(pipex.paths, pipex.cmd1[0]);
-	if (pipex.cmdpath == NULL)
-		ft_perror(pipex, "command not found", 0, 1);
-	if (execve(pipex.cmdpath, pipex.cmd1, envp) == -1)
-		ft_perror(pipex, "ERROR", 1, 1);
-	niel(pipex.cmd1);
-	free(pipex.cmdpath);
+	if (argv[i][0] == '\0')
+		argv[i] = "cat";
+	pipex->cmd = ft_split(argv[i], ' ');
+	pipex->cmdpath = get_cmd(pipex->paths, pipex->cmd[0]);
+	if (pipex->cmdpath == NULL)
+		ft_perror(pipex, "command not found");
+	if (execve(pipex->cmdpath, pipex->cmd, envp) == -1)
+		ft_perror(pipex, "ERROR");
+	niel(pipex->cmd);
+	free(pipex->cmdpath);
 }
 
-void	child2(t_pipe pipex, char **argv, char **envp)
+void	child(t_pipe *pipex, char **argv, char **envp, int i)
 {
-	pipex.fdout = open(argv[4], O_WRONLY | O_TRUNC, 0644);
-	if (pipex.fdout == -1)
-		ft_perror(pipex, "ERROR_OUTFILE", 0, 0);
-	if (dup2(pipex.fdout, STDOUT_FILENO) == -1)
-		ft_perror(pipex, "ERROR_DUP_OUTFILE", 0, 0);
-	if (dup2(pipex.bouts[0], STDIN_FILENO) == -1)
-		ft_perror(pipex, "ERROR_DUP_INTPIPE", 0, 0);
-	close(pipex.bouts[0]);
-	close(pipex.bouts[1]);
-	close(pipex.fdout);
-	if (argv[3][0] == '\0')
-		argv[3] = "cat";
-	pipex.cmd2 = ft_split(argv[3], ' ');
-	pipex.cmdpath = get_cmd(pipex.paths, pipex.cmd2[0]);
-	if (pipex.cmdpath == NULL)
-		ft_perror(pipex, "command not found", 0, 2);
-	if (execve(pipex.cmdpath, pipex.cmd2, envp) == -1)
-		ft_perror(pipex, "ERROR", 1, 2);
-	niel(pipex.cmd2);
-	free(pipex.cmdpath);
+	if (i == 0)
+	{
+		if (dup2(pipex->fdin, STDIN_FILENO) == -1)
+			ft_perror(pipex, "ERROR_DUP");
+		if (dup2(pipex->bouts[1], STDOUT_FILENO) == -1)
+			ft_perror(pipex, "ERROR_DUP");
+	}
+	else if (i == pipex->cmds - 1)
+	{
+		if (dup2(pipex->bouts[i * 2 - 2], STDIN_FILENO) == -1)
+			ft_perror(pipex, "ERROR_DUP");
+		if (dup2(pipex->fdout, STDOUT_FILENO) == -1)
+			ft_perror(pipex, "ERROR_DUP");
+	}
+	else
+	{
+		if (dup2(pipex->bouts[2 * i - 2], STDIN_FILENO) == -1)
+			ft_perror(pipex, "ERROR_DUP");
+		if (dup2(pipex->bouts[2 * i + 1], STDOUT_FILENO) == -1)
+			ft_perror(pipex, "ERROR_DUP");
+	}
+	close_files(pipex);
+	exec_child(pipex, argv, envp, i + 2);
 }
