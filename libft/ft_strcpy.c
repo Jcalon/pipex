@@ -1,42 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcalon <jcalon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/02 15:43:00 by jcalon            #+#    #+#             */
-/*   Updated: 2022/05/30 13:32:53 by jcalon           ###   ########.fr       */
+/*   Created: 2022/05/30 13:33:13 by jcalon            #+#    #+#             */
+/*   Updated: 2022/05/31 15:09:17 by jcalon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+void	ft_strcpy(const char *src, char *dest)
 {
-	char	*sub;
 	size_t	i;
-	size_t	size;
 
-	size = 0;
-	if (!s)
-		return (NULL);
-	if (len > ft_strlen(s))
-		size = ft_strlen(s);
-	else
-		size = len;
-	sub = malloc(sizeof(char) * (size + 1));
-	if (!sub)
-		return (NULL);
 	i = 0;
-	if (start < ft_strlen(s))
+	while (src[i] != '\0')
 	{
-		while (i < size)
-		{
-			sub[i] = s[start + i];
-			i++;
-		}
+		dest[i] = src[i];
+		i++;
 	}
-	sub[i] = '\0';
-	return (sub);
+	dest[i] = '\0';
 }

@@ -6,7 +6,7 @@
 /*   By: jcalon <jcalon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:56:18 by jcalon            #+#    #+#             */
-/*   Updated: 2022/05/30 20:49:38 by jcalon           ###   ########.fr       */
+/*   Updated: 2022/05/31 14:58:31 by jcalon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,5 @@ void	child(t_pipe *pipex, char **argv, char **envp, int i)
 			ft_perror(pipex, "ERROR_DUP");
 	}
 	close_files(pipex);
-	exec_child(pipex, argv, envp, i + 2);
+	exec_child(pipex, argv, envp, i + 2 + pipex->here_doc);
 }
