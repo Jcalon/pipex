@@ -6,7 +6,7 @@
 /*   By: jcalon <jcalon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 15:49:15 by jcalon            #+#    #+#             */
-/*   Updated: 2022/06/01 13:04:48 by jcalon           ###   ########.fr       */
+/*   Updated: 2022/06/01 13:54:08 by jcalon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	get_in_out_files(t_pipe *pipex, int argc, char **argv);
 
 char	*errinfo(char *str1, char *str2);
 int		errmsg(char *str1, char *str2, char *str3);
+int		cmderr(char *str1, char *str2, char *str3);
 void	ft_error(t_pipe *pipex, int err);
 
 #endif
