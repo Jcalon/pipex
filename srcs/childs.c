@@ -6,11 +6,11 @@
 /*   By: jcalon <jcalon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:56:18 by jcalon            #+#    #+#             */
-/*   Updated: 2022/06/01 14:35:50 by jcalon           ###   ########.fr       */
+/*   Updated: 2022/06/01 17:04:02 by jcalon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/pipex.h"
+#include "pipex.h"
 
 static char	*get_cmd(char **paths, char *cmd)
 {

@@ -6,11 +6,11 @@
 /*   By: jcalon <jcalon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 15:49:23 by jcalon            #+#    #+#             */
-/*   Updated: 2022/06/01 13:03:24 by jcalon           ###   ########.fr       */
+/*   Updated: 2022/06/01 17:04:28 by jcalon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/pipex.h"
+#include "pipex.h"
 
 static char	**find_paths(char **envp)
 {

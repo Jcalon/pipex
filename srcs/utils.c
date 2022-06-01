@@ -6,11 +6,11 @@
 /*   By: jcalon <jcalon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:55:37 by jcalon            #+#    #+#             */
-/*   Updated: 2022/06/01 12:57:01 by jcalon           ###   ########.fr       */
+/*   Updated: 2022/06/01 17:04:40 by jcalon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/pipex.h"
+#include "pipex.h"
 
 void	close_files(t_pipe *pipex)
 {

@@ -6,11 +6,11 @@
 /*   By: jcalon <jcalon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 12:10:54 by jcalon            #+#    #+#             */
-/*   Updated: 2022/06/01 14:32:40 by jcalon           ###   ########.fr       */
+/*   Updated: 2022/06/01 17:04:13 by jcalon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/pipex.h"
+#include "pipex.h"
 
 char	*errinfo(char *str1, char *str2)
 {
