@@ -6,7 +6,7 @@
 /*   By: jcalon <jcalon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 12:56:18 by jcalon            #+#    #+#             */
-/*   Updated: 2022/06/01 14:01:54 by jcalon           ###   ########.fr       */
+/*   Updated: 2022/06/01 14:35:50 by jcalon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static char	*get_cmd(char **paths, char *cmd)
 	char	*tmp;
 	char	*cmdpath;
 
-	if (access(cmd, F_OK | X_OK) == 0)
+	if (access(cmd, X_OK) == 0)
 		return (ft_strdup(cmd));
 	i = -1;
 	while (paths[++i])
@@ -30,7 +30,7 @@ static char	*get_cmd(char **paths, char *cmd)
 		free(tmp);
 		if (!cmdpath)
 			return (errinfo("Unexpected error", ""));
-		if (access(cmdpath, F_OK | X_OK) == 0)
+		if (access(cmdpath, X_OK) == 0)
 			return (cmdpath);
 		free(cmdpath);
 	}
@@ -72,7 +72,12 @@ static void	exec_child(t_pipe *pipex, char **argv, char **envp, int i)
 	else
 		pipex->cmdpath = get_cmd(pipex->paths, pipex->cmd[0]);
 	if (pipex->cmdpath == NULL)
+	{
+		if (access(pipex->cmd[0], F_OK) == 0
+			&& (access(pipex->cmd[0], X_OK) != 0))
+			ft_error(pipex, errmsg(strerror(errno), ": ", pipex->cmd[0]));
 		ft_error(pipex, cmderr("command not found", ": ", pipex->cmd[0]));
+	}
 	if (execve(pipex->cmdpath, pipex->cmd, envp) == -1)
 		ft_error(pipex, errmsg(pipex->cmd[0], ": ", strerror(errno)));
 	niel(pipex->cmd);
