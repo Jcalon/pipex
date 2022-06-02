@@ -39,10 +39,10 @@ static t_pipe	data_init(int argc, char **argv, char **envp)
 		pipex.here_doc = 0;
 	get_in_out_files(&pipex, argc, argv);
 	pipex.cmds = argc - 3 - pipex.here_doc;
-	pipex.bouts = calloc(2 * (pipex.cmds - 1), sizeof(int));
+	pipex.bouts = ft_calloc(2 * (pipex.cmds - 1), sizeof(int));
 	if (pipex.bouts == NULL)
 		ft_error(&pipex, errmsg("PIPE ERROR", "", ""));
-	pipex.pids = calloc(pipex.cmds, sizeof(pid_t));
+	pipex.pids = ft_calloc(pipex.cmds, sizeof(pid_t));
 	if (pipex.pids == NULL)
 		ft_error(&pipex, errmsg("PID ERROR", strerror(errno), ""));
 	return (pipex);
